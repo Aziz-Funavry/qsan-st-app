@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 
 import rpy2.robjects as robjects
-from IPython.display import Image
 
 from PIL import Image
 # List of packages to install
