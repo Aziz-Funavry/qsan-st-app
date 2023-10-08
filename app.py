@@ -3,6 +3,17 @@ import pandas as pd
 
 import rpy2.robjects as robjects
 
+from rpy2.robjects.packages import importr
+
+importr("networktools")
+importr("smacof")
+importr("MPsychoR")
+importr("psych")
+importr("eigenmodel")
+importr("dplyr")
+importr("NetworkComparisonTest")
+
+
 from PIL import Image
 # List of packages to install
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
@@ -14,11 +25,6 @@ installed_packages = robjects.r('rownames(installed.packages())')
 for package in packages_to_install:
     if package not in installed_packages:
         robjects.r(f'install.packages("{package}")')
-
-# Load necessary R libraries
-libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2",  "IsingFit"]
-for library in libraries_to_load:
-    robjects.r(f'library("{library}")')
 
 
 def load_file(uploaded_file):
