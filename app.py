@@ -8,12 +8,12 @@ from PIL import Image
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
 
 # Check if the packages are already installed
-installed_packages = robjects.r('rownames(installed.packages())')
+#installed_packages = robjects.r('rownames(installed.packages())')
 
 # Install necessary packages
-for package in packages_to_install:
-    if package not in installed_packages:
-        robjects.r(f'install.packages("{package}")')
+#for package in packages_to_install:
+ #   if package not in installed_packages:
+  #      robjects.r(f'install.packages("{package}")')
 
 # Load necessary R libraries
 libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2",  "IsingFit"]
