@@ -1,24 +1,22 @@
 import streamlit as st
 import pandas as pd
-
+import os
+import threading
 import rpy2.robjects as robjects
 
 from PIL import Image
-# List of packages to install
-packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
 
-# Check if the packages are already installed
-#installed_packages = robjects.r('rownames(installed.packages())')
+# List of packages to install and load
+packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
+libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2", "IsingFit"]
 
 # Install necessary packages
-#for package in packages_to_install:
- #   if package not in installed_packages:
-  #      robjects.r(f'install.packages("{package}")')
+for package in packages_to_install:
+    robjects.r(f'if(!("{package}" %in% installed.packages())) install.packages("{package}")')
 
 # Load necessary R libraries
-libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2",  "IsingFit"]
 for library in libraries_to_load:
-    robjects.r(f'library("{library}")')
+    robjects.r(f'library({library})')
 
 
 def load_file(uploaded_file):
@@ -52,6 +50,8 @@ def main():
 
     if uploaded_file is not None:
         st.info("File successfully uploaded!")
+        with open(uploaded_file.name, 'wb') as f:
+            f.write(uploaded_file.getvalue())
 
         # Load the uploaded file as a DataFrame
         df = load_file(uploaded_file)
@@ -79,13 +79,24 @@ def main():
                 robjects.r('net1 <- qgraph(cor_auto(netdt1), n = nrow(netdt1), lambda.min.ratio = 0.05, default = "EBICglasso", layout="spring", vsize = 16, gamma = 0.2, tuning = 0.2, refit = TRUE)')
 
 
-                # Plot the qgraph for the correlation difference and save it as an image
-                robjects.r('png("/content/qgraph_plot.png")')
-                robjects.r('qgraph(net1, maximum=0.29)')
-                robjects.r('dev.off()')
-                
-                plot_image = Image.open("/content/qgraph_plot.png")
-                st.image(plot_image, caption='qgraph Plot', use_column_width=True)
+                # # Define the file path for the image
+                # image_path = "graph_plot.png"
+
+                # # Delete the existing image file if it exists
+                # if os.path.exists(image_path):
+                #     os.remove(image_path)
+
+               # Plot the qgraph for the correlation difference and save it as an image
+                try:
+                    robjects.r(f'png("graph_plot.png", width=800, height=600)')
+                    robjects.r('qgraph(net1, maximum=0.29)')
+                    robjects.r('dev.off()')  # Close the PNG device
+                except:
+                  pass
+                                                
+                if os.path.exists("graph_plot.png"):
+                    plot_image = Image.open("graph_plot.png")
+                    st.image(plot_image, caption='Network Plot', use_column_width=True)
 
                 # # Display the saved plot as an image
                 # Image(filename='/content/qgraph_plot.png')
