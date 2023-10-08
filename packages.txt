@@ -1,1 +1,8 @@
 r-base
+r-cran-networktools
+r-cran-smacof
+r-cran-MPsychoR
+r-cran-psych
+r-cran-eigenmodel
+r-cran-dplyr
+r-cran-NetworkComparisonTest
