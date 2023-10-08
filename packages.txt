@@ -1,1 +1,8 @@
 r-base
+networktools
+smacof
+MPsychoR
+psych
+eigenmodel
+dplyr
+NetworkComparisonTest
