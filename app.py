@@ -1,7 +1,25 @@
 import streamlit as st
-import subprocess
-from PIL import Image
 import pandas as pd
+
+import rpy2.robjects as robjects
+from IPython.display import Image
+
+from PIL import Image
+# List of packages to install
+packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
+
+# Check if the packages are already installed
+installed_packages = robjects.r('rownames(installed.packages())')
+
+# Install necessary packages
+for package in packages_to_install:
+    if package not in installed_packages:
+        robjects.r(f'install.packages("{package}")')
+
+# Load necessary R libraries
+libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2",  "IsingFit"]
+for library in libraries_to_load:
+    robjects.r(f'library("{library}")')
 
 
 def load_file(uploaded_file):
@@ -47,18 +65,35 @@ def main():
             display_selected_columns(df, selected_columns)
 
             if len(selected_columns)>1:
-    
+                # Read the CSV file
+                robjects.r(f'dt <- read.csv("{uploaded_file.name}", header=TRUE)')
+
                 # Define the column names you want to select
                 columns_to_select = selected_columns
 
                 # Construct a string with the column names
                 columns_to_select_str = ', '.join([f'"{col}"' for col in columns_to_select])
 
-                process3 = subprocess.Popen(["Rscript", "networkplot.R"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-                result3 = process3.communicate()
+                # Use the constructed string in the R code to select columns
+                robjects.r(f'netdt1 <- select(dt, {columns_to_select_str})')
+
+                robjects.r('net1 <- qgraph(cor_auto(netdt1), n = nrow(netdt1), lambda.min.ratio = 0.05, default = "EBICglasso", layout="spring", vsize = 16, gamma = 0.2, tuning = 0.2, refit = TRUE)')
+
+
+                # Plot the qgraph for the correlation difference and save it as an image
+                robjects.r('png("/content/qgraph_plot.png")')
+                robjects.r('qgraph(net1, maximum=0.29)')
+                robjects.r('dev.off()')
                 
-                plot_image = Image.open("qgraph_plot.png")
+                plot_image = Image.open("/content/qgraph_plot.png")
                 st.image(plot_image, caption='qgraph Plot', use_column_width=True)
+
+                # # Display the saved plot as an image
+                # Image(filename='/content/qgraph_plot.png')
+        
+
+        
+
 
 
 if __name__ == "__main__":
