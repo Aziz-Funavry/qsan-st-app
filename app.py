@@ -5,13 +5,6 @@ import rpy2.robjects as robjects
 
 from rpy2.robjects.packages import importr
 
-importr("networktools")
-importr("smacof")
-importr("MPsychoR")
-importr("psych")
-importr("eigenmodel")
-importr("dplyr")
-importr("NetworkComparisonTest")
 
 
 from PIL import Image
@@ -25,6 +18,15 @@ installed_packages = robjects.r('rownames(installed.packages())')
 for package in packages_to_install:
     if package not in installed_packages:
         robjects.r(f'install.packages("{package}")')
+
+
+importr("networktools")
+importr("smacof")
+importr("MPsychoR")
+importr("psych")
+importr("eigenmodel")
+importr("dplyr")
+importr("NetworkComparisonTest")
 
 
 def load_file(uploaded_file):
