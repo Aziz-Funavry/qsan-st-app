@@ -1,3 +1,4 @@
+print("In Network.R")
 install.packages("networktools")
 install.packages("smacof")
 install.packages("MPsychoR")
