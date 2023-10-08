@@ -3,10 +3,6 @@ import pandas as pd
 
 import rpy2.robjects as robjects
 
-from rpy2.robjects.packages import importr
-
-
-
 from PIL import Image
 # List of packages to install
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
@@ -19,14 +15,10 @@ for package in packages_to_install:
     if package not in installed_packages:
         robjects.r(f'install.packages("{package}")')
 
-
-importr("networktools")
-importr("smacof")
-importr("MPsychoR")
-importr("psych")
-importr("eigenmodel")
-importr("dplyr")
-importr("NetworkComparisonTest")
+# Load necessary R libraries
+libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2",  "IsingFit"]
+for library in libraries_to_load:
+    robjects.r(f'library("{library}")')
 
 
 def load_file(uploaded_file):
@@ -94,13 +86,6 @@ def main():
                 
                 plot_image = Image.open("/content/qgraph_plot.png")
                 st.image(plot_image, caption='qgraph Plot', use_column_width=True)
-
-                # # Display the saved plot as an image
-                # Image(filename='/content/qgraph_plot.png')
-        
-
-        
-
 
 
 if __name__ == "__main__":
