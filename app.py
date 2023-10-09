@@ -21,7 +21,7 @@ user_library_path = "~/.R/library"
 
 # Install necessary packages
 for package in packages_to_install:
-    subprocess.run(["Rscript", "-e", f'install.packages("{package}", lib="{user_library_path}")'])
+    subprocess.run(["Rscript", "-e", f'install.packages("{package}")'])
 
 
 # Install necessary packages
