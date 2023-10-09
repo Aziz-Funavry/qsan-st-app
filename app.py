@@ -10,6 +10,20 @@ from PIL import Image
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
 libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2", "IsingFit"]
 
+
+import subprocess
+
+# List of packages to install
+packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
+
+# Specify the user library path
+user_library_path = "~/.R/library"
+
+# Install necessary packages
+for package in packages_to_install:
+    subprocess.run(["Rscript", "-e", f'install.packages("{package}", lib="{user_library_path}")'])
+
+
 # Install necessary packages
 for package in packages_to_install:
     robjects.r(f'if(!("{package}" %in% installed.packages())) install.packages("{package}")')
