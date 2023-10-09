@@ -21,7 +21,7 @@ packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmode
 user_library_path = "~/.R/library"
 
 for package in packages_to_install:
-    subprocess.run(["Rscript", "-e", f'.libPaths(c("{user_library_path}")); install.packages(c"{package}")'])
+    subprocess.run(["Rscript", "-e", f'.libPaths(c("{user_library_path}")); install.packages(c("{package}"))'])
 
 
 # Install necessary packages
