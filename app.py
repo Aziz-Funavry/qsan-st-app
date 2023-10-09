@@ -16,12 +16,13 @@ import subprocess
 # List of packages to install
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
 
-
-# Specify a user-specific library path
+# Specify the user library path
 user_library_path = "~/.R/library"
 
+# Install necessary packages
 for package in packages_to_install:
-    subprocess.run(["Rscript", "-e", f'.libPaths(c("{user_library_path}")); install.packages(c("{package}"))'])
+    subprocess.run(["Rscript", "-e", f'.libPaths("{user_library_path}"); install.packages("{package}")'])
+
 
 
 # Install necessary packages
