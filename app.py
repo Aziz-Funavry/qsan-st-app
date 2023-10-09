@@ -28,9 +28,8 @@ os.makedirs(custom_library_path, exist_ok=True)
 
 
 
-# Install necessary packages
 for package in packages_to_install:
-    robjects.r(f'if(!("{package}" %in% installed.packages())) install.packages("{package}")')
+        robjects.r(f'install.packages("{package}")')
 
 # Load necessary R libraries
 for library in libraries_to_load:
