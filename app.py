@@ -20,6 +20,8 @@ packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmode
 # Set the custom library path
 custom_library_path = os.path.expanduser("~/.R/library")
 
+print("Path: ", custom_library_path)
+
 # Create the custom library directory if it doesn't exist
 os.makedirs(custom_library_path, exist_ok=True)
 
@@ -29,6 +31,7 @@ libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "e
 
 # Install necessary packages
 for package in packages_to_install:
+    print("In Packages")
     robjects.r(f'if(!("{package}" %in% installed.packages())) install.packages("{package}")')
 
 # Load necessary R libraries
