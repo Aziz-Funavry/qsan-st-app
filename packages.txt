@@ -1,10 +1,2 @@
 r-base
 cmake
-
-networktools
-smacof
-MPsychoR
-psych
-eigenmodel
-dplyr
-NetworkComparisonTest
