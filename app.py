@@ -23,13 +23,13 @@ custom_library_path = os.path.expanduser("~/.R/library")
 # Create the custom library directory if it doesn't exist
 os.makedirs(custom_library_path, exist_ok=True)
 
+# List of packages to install and load
+packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
+libraries_to_load = ["networktools", "MPsychoR", "smacof", "qgraph", "psych", "eigenmodel", "dplyr", "ggplot2", "IsingFit"]
 
-
-
-
-
+# Install necessary packages
 for package in packages_to_install:
-        robjects.r(f'install.packages("{package}")')
+    robjects.r(f'if(!("{package}" %in% installed.packages())) install.packages("{package}")')
 
 # Load necessary R libraries
 for library in libraries_to_load:
