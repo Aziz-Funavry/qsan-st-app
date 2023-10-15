@@ -17,8 +17,11 @@ import subprocess
 # List of packages to install
 packages_to_install = ["networktools", "smacof", "MPsychoR", "psych", "eigenmodel", "dplyr", "NetworkComparisonTest"]
 
+/usr/local/lib/R/site-library
+custom_library_path1 = os.path.expanduser("/usr/local/lib/R/site-library")
+os.makedirs(custom_library_path1, exist_ok=True)
 # Set the custom library path
-custom_library_path = os.path.expanduser("~/.R/library")
+custom_library_path = os.path.expanduser("~/R/library")
 
 print("Path: ", custom_library_path)
 
